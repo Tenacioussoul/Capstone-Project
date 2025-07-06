@@ -1,0 +1,92 @@
+# 🅿️ Dynamic Pricing for Urban Parking Lots
+
+## 🚀 Overview
+
+This project aims to simulate and build a real-time, intelligent pricing engine for 14 urban parking lots using demand-based and competition-aware models. As urban spaces face growing congestion, static pricing becomes inefficient. Our solution dynamically adjusts parking prices based on occupancy, traffic, queue lengths, vehicle types, and nearby competitor prices — improving space utilization and reducing congestion.
+
+The system operates in real time using streaming data and is powered by **Pathway**, with all logic and models built from scratch using **Python**, **Pandas**, and **NumPy**.
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer                | Tools/Technologies                      |
+|---------------------|------------------------------------------|
+| Programming Language | Python                                  |
+| Data Processing      | Pandas, NumPy                           |
+| Real-Time Engine     | [Pathway](https://pathway.com)          |
+| Visualization        | Bokeh                                   |
+| Geolocation (Model 3)| Geopy (for distance-based competition)  |
+| Development Env      | Google Colab                            |
+
+---
+
+## 📊 Architecture Diagram (via Mermaid)
+
+```mermaid
+graph TD
+    A[Dataset (CSV)] --> B[Pathway Stream Processor]
+    B --> C{Pricing Models}
+    C --> C1[Model 1: Linear Pricing]
+    C --> C2[Model 2: Demand-Based Pricing]
+    C --> C3[Model 3: Competitive Pricing]
+    C1 --> D[Price Output]
+    C2 --> D
+    C3 --> D
+    D --> E[Real-Time Visualizations (Bokeh)]
+    D --> F[Report / Logging]
+
+
+Project Architecture & Workflow
+1. Data Ingestion
+Time-stamped parking lot data is streamed into the system using Pathway.
+
+Data includes occupancy, queue length, traffic level, vehicle type, and location.
+
+2. Real-Time Processing
+Data is passed into a Pathway pipeline, where pre-processing is performed:
+
+Calculating occupancy rate
+
+Mapping traffic scores
+
+Assigning vehicle-type weights
+
+Converting timestamps
+
+3. Pricing Models
+Model 1: Linear increase based on occupancy
+
+Model 2: Price computed from a demand function based on five features (occupancy, queue, traffic, special days, vehicle type)
+
+Model 3: Adjusts price further using:
+
+Geolocation of nearby lots (within 500m)
+
+Competitor pricing logic (increase or decrease based on relative pricing and demand)
+
+Optional rerouting flag
+
+4. Price Emission
+Final price is emitted with timestamp and lot ID.
+
+Real-time line plots are updated via Bokeh, showing:
+
+Price trends
+
+Price vs demand
+
+Lot-wise comparisons
+
+📦 dynamic-parking-pricing
+├── data/
+│   └── dataset.csv
+├── models/
+│   └── demand_pricing_model.py
+├── notebooks/
+│   └── parking_pricing_model.ipynb
+├── visualizations/
+│   └── bokeh_plot_config.py
+├── report/
+│   └── Dynamic_Pricing_Report.pdf (optional)
+├── README.md
